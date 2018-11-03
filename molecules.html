@@ -13,20 +13,20 @@ canvas {
 <script>
 var player;
 var myObstacles = [];
+var food = [];
+var foodCount;
+var eaten = 0;
 var timer;
 var time;
-var playerSize;
+var playerSize = 20;
 var gameOver = false;
 var gap = randGap();
-var cHeight = 400;
-var playerSpeed = 2;
-var obstacleSize = 30;
-
+var playerSpeed = 2
 
 function startGame() {
-    playerSize = 20;
-    player = new component(playerSize, playerSize, "carbon.png", 50, cHeight/2, "image");
-    timer = new component("20px","Consolas","black",0,400,"text")
+    player = new component(playerSize, playerSize, "carbon.png", 50, 120, "image");
+    timer = new component("20px","Consolas","black",0,400,"text");
+    foodCount = new component("20px", "Consolas","black", 200, 400,"text");
     myGameArea.start();
 }
 var myGameArea = {
@@ -76,10 +76,10 @@ function component(width, height, color, x, y, type) {
         this.y += this.speedY;
     }
     this.crashWith = function(otherobj) {
-        var myleft = this.x + 10;
-        var myright = this.x + (this.width)-10;
-        var mytop = this.y +10;
-        var mybottom = this.y + (this.height) -10 ;
+        var myleft = this.x;
+        var myright = this.x + (this.width-3);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height-3);
         var otherleft = otherobj.x;
         var otherright = otherobj.x + (otherobj.width);
         var othertop = otherobj.y;
@@ -113,24 +113,53 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (player.crashWith(myObstacles[i])) {
             myGameArea.stop();
+            ctx.fillText("GAME OVER", 300, 200);
             return;
         }
+
+
     }
+
+    for (i = 0; i< food.length; i += 1){
+        if (player.crashWith(food[i])) {
+            eaten += 1;
+            //food[i] = new component(30, 30, "white", x, foodY);
+            food.splice(i, 1);
+            break;
+            
+        }
+
+    }
+    
+
     myGameArea.clear();
     myGameArea.frameNo += 1;
     if (myGameArea.frameNo == 1 || everyinterval(gap)) {
         x = myGameArea.canvas.width;
         y = Math.floor((Math.random()*myGameArea.canvas.height)-20);
-        myObstacles.push(new component(obstacleSize, obstacleSize, "fire.gif", x, y, "image"));
+        myObstacles.push(new component(20, 20, "green", x, y));
+        
+        foodY = Math.floor((Math.random()*myGameArea.canvas.height-30));
+        food.push(new component(20, 20, "blue", x, foodY));
+
         gap=randGap();
     }
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x -= 1;
         myObstacles[i].update();
     }
+
+    for (i = 0; i< food.length; i += 1){
+        food[i].x -= 1;
+        food[i].update();
+
+    }
+
     var time = (Math.round((myGameArea.frameNo*0.01)*10)/10).toFixed(1);
     timer.text = "TIME: "+ time;
     timer.update();
+    foodCount.text = "Atoms eaten: "+ eaten;
+    foodCount.update();
     player.newPos();
     player.update();
     //change diamond
@@ -157,15 +186,15 @@ function everyinterval(n) {
     if ((myGameArea.frameNo % n) == 0) {return true;}
     return false;
 }
+
 function randGap(){
   var minGap = 60;
   var maxGap = 120;
   return Math.floor(minGap+Math.random()*(maxGap-minGap+1));
 }
+
 function changeDiamond() {
     player.image.src = "diamond.jpg";
-    player.height = 40;
-    player.width = 40;
 }
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);
