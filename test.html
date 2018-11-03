@@ -80,6 +80,28 @@ function component(width, height, color, x, y, type) {
     }
 }
 
+controller = {
+    up: false,
+    down: false,
+    keyListener: function (event) {
+
+    //check event type
+        "use strict";
+        var key_state = (event.type === "keydown") ? true : false;
+
+        switch (event.keyCode) {
+
+        case 38: //up key
+            controller.up = key_state;
+            break;
+        case 40: //down key
+            controller.down = key_state;
+            break;
+        }
+    }
+
+};
+
 function updateGameArea() {
     var x, y;
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -103,6 +125,28 @@ function updateGameArea() {
     timer.update();
     myGamePiece.newPos();
     myGamePiece.update();
+    //collision detection with floor
+    if (myGamePiece.y > ctx.canvas.height - 50) {
+
+        myGamePiece.y = ctx.canvas.height - 50;
+        myGamePiece.speedY = 0;
+    }
+
+    //collision detection with ceiling
+    if (myGamePiece.y < 25) {
+
+        myGamePiece.y = 25;
+        myGamePiece.speedY = 0;
+    }
+
+    if (controller.up && myGamePiece.y >= 0 && myGamePiece.y <= ctx.canvas.height) {
+        myGamePiece.speedY -= 1; //-= gradually increases speed
+        //player.jumping = true;
+    }
+
+    if (controller.down && myGamePiece.y >= 0 && myGamePiece.y <= ctx.canvas.height) {
+        myGamePiece.speedY += 1;
+    }
 }
 
 function everyinterval(n) {
@@ -110,26 +154,9 @@ function everyinterval(n) {
     return false;
 }
 
-function moveup() {
-    myGamePiece.speedY = -1;
-}
+window.addEventListener("keydown", controller.keyListener);
+window.addEventListener("keyup", controller.keyListener);
 
-function movedown() {
-    myGamePiece.speedY = 1;
-}
-
-function moveleft() {
-    myGamePiece.speedX = -1;
-}
-
-function moveright() {
-    myGamePiece.speedX = 1;
-}
-
-function clearmove() {
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;
-}
 </script>
 
 </body>
