@@ -1,5 +1,6 @@
 body, html {
     height: 100%;
+    background-color: #c6f4ff;
 }
 
 /* The background image */
@@ -9,7 +10,8 @@ body, html {
 
     /* Set a specific height */
     height: 100%;
-    padding-top: 12%;
+    width: 100%;
+    padding-top: 15%;
     /* Position and center the image to scale nicely on all screens */
     background-position: center;
     background-size: cover;
@@ -22,10 +24,22 @@ h1 {
     top: 50%;
     left: 50%;
     background-color: red;
-    background-blend-mode: color;
-    width: 20%;
+    width: 35%;
     text-align: center;
     display: inline-block;
+    font-size: 50px;
+}
+
+h2 {
+    align-content: center;
+    font-family: 'Press Start 2P', cursive;
+    color:red;
+    width: 20%;
+    text-align: center;
+    margin-top: 5%;
+    margin-left: 30%;
+    display: inline-block;
+    font-size: 50px;
 }
 
 
@@ -56,65 +70,26 @@ nav a {
     color:#ffccf4;
 }
 nav a:hover {
-    color:deepskyblue;
+    color:yellow;
 }
 
-
-/* Place text in the middle of the image */
-
-
-/*img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-
-.background {
-    height: 500px;
-    width: 1000px;
+canvas {
+    background-color: black;
     text-align: center;
-    padding-top: 5%;
-    margin-left: 15%;
+    margin-top: 3%;
+    margin-left: 18%;
+    width: 1000px;
+    height: 800px;
 }
-*/
 
-
-/*html, body, {
-    position:fixed;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-}
-*/
 
 .container {
     width: 100%
     margin: 0 auto;
 }
 
-/*
-header::after {
-    content: '';
-    display: table;
-    clear: both;
-}
-*/
 
-h2 { 
-    font-family: 'Lora', serif;
-    font-size: 30px;
-    margin-left: 10px;
-    color: deepskyblue;
-    text-align: center;
-}
 
-h3 {
-    font-family: 'Lora', serif;
-    font-size: 25px;
-    margin-left: 10px;
-    color: deepskyblue;
-}
 
 
 
