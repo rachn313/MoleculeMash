@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+var player;
+var myObstacles = [];
+var food = [];
+var foodCount;
+var eaten = 0;
+var timer;
+var time;
+var playerSize = 20;
+var gameOver = false;
+var gap = randGap();
+var playerSpeed = 2
+
+function startGame() {
+    player = new component(playerSize, playerSize, "carbon.png", 50, 120, "image");
+    timer = new component("20px","Consolas","black",0,400,"text");
+    foodCount = new component("20px", "Consolas","black", 200, 400,"text");
+    myGameArea.start();
+}
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 600;
+        this.canvas.height = 400;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 5);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    }
+}
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if (type == "image") {
+      this.image = new Image();
+      this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text"){
+          ctx.font = this.width+" "+this.height;
+          ctx.fillStyle = color;
+          ctx.fillText(this.text,this.x,this.y);
+        } else if (type == "image") {
+          ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        } else{
+          ctx.fillStyle = color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width-3);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height-3);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+controller = {
+    up: false,
+    down: false,
+    keyListener: function (event) {
+    //check event type
+        "use strict";
+        var key_state = (event.type === "keydown") ? true : false;
+        switch (event.keyCode) {
+        case 38: //up key
+            controller.up = key_state;
+            break;
+        case 40: //down key
+            controller.down = key_state;
+            break;
+        }
+    }
+};
+function updateGameArea() {
+    var x, y;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (player.crashWith(myObstacles[i])) {
+            myGameArea.stop();
+            ctx.fillText("GAME OVER", 300, 200);
+            return;
+        }
+
+
+    }
+
+    for (i = 0; i< food.length; i += 1){
+        if (player.crashWith(food[i])) {
+            eaten += 1;
+            //food[i] = new component(30, 30, "white", x, foodY);
+            food.splice(i, 1);
+            break;
+            
+        }
+
+    }
+    
+
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(gap)) {
+        x = myGameArea.canvas.width;
+        y = Math.floor((Math.random()*myGameArea.canvas.height)-20);
+        myObstacles.push(new component(20, 20, "green", x, y));
+        
+        foodY = Math.floor((Math.random()*myGameArea.canvas.height-30));
+        food.push(new component(20, 20, "blue", x, foodY));
+
+        gap=randGap();
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x -= 1;
+        myObstacles[i].update();
+    }
+
+    for (i = 0; i< food.length; i += 1){
+        food[i].x -= 1;
+        food[i].update();
+
+    }
+
+    var time = (Math.round((myGameArea.frameNo*0.01)*10)/10).toFixed(1);
+    timer.text = "TIME: "+ time;
+    timer.update();
+    foodCount.text = "Atoms eaten: "+ eaten;
+    foodCount.update();
+    player.newPos();
+    player.update();
+    //change diamond
+    if (time >= 60) changeDiamond();
+    //collision detection with floor
+    if (player.y > ctx.canvas.height - playerSize) {
+        player.y = ctx.canvas.height - playerSize;
+        player.speedY = 0;
+    }
+    //collision detection with ceiling
+    if (player.y < 0) {
+        player.y = 0;
+        player.speedY = 0;
+    }
+    if (controller.up && player.y >= 0 && player.y <= ctx.canvas.height) {
+        player.y -= playerSpeed; //-= gradually increases speed
+        //player.jumping = true;
+    }
+    if (controller.down && player.y >= 0 && player.y <= ctx.canvas.height) {
+        player.y += playerSpeed;
+    }
+}
+function everyinterval(n) {
+    if ((myGameArea.frameNo % n) == 0) {return true;}
+    return false;
+}
+
+function randGap(){
+  var minGap = 60;
+  var maxGap = 120;
+  return Math.floor(minGap+Math.random()*(maxGap-minGap+1));
+}
+
+function changeDiamond() {
+    player.image.src = "diamond.jpg";
+}
+window.addEventListener("keydown", controller.keyListener);
+window.addEventListener("keyup", controller.keyListener);
+</script>
+
+</body>
+</html>
