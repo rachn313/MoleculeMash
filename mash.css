@@ -1,0 +1,92 @@
+body, html {
+    height: 100%;
+}
+
+.bg { 
+    /* The image used */
+    background-image: url("https://i.imgur.com/CMu543W.png");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#button {
+    width: 200px;
+    height: 110px;
+    border: 10px orange;
+    background: yellow;
+    border-radius: 5px;
+    font-size: 30px;
+    margin-left: 42%;
+    margin-top: 35%;
+}
+a {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: black;
+    font-family: 'Faster One', cursive;
+}
+a:hover {
+    color: blue;
+    background: orange;
+}
+
+h1 {
+    align-content: center;
+    font-family: 'Faster One', cursive;
+    color:black;
+    top: 50%;
+    left: 50%;
+    background-color: red;
+    width: 35%;
+    text-align: center;
+    display: inline-block;
+    font-size: 50px;
+    border-color: blue;
+}
+nav{
+    float: right;
+}
+
+nav ul {
+    margin: 0;
+    padding: 10px 10px;
+    list-style: none;
+    font-family: 'Faster One', cursive;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-top: 0px;
+    text-transform: uppercase;
+    font-size: 30px;
+    position: relative;
+    background-color:red;
+}
+
+nav a {
+    color:black;
+}
+nav a:hover {
+    color:yellow;
+}
+
+
+.container {
+    width: 100%
+    margin: 0 auto;
+}
+
+
+
