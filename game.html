@@ -4,7 +4,7 @@
 <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Poor+Story" rel="stylesheet">
 <link href="MoleculeMash.css" rel="stylesheet" type="text/css">
-<title>MoleculeMash</title> 
+<title>MoleculeMash</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <style>
 canvas {
@@ -12,8 +12,8 @@ canvas {
     background-color: #ffe9bf;
 }
 </style>
-    
-<header class="main-header" role="banner"> 
+
+<header class="main-header" role="banner">
     <div class="background-image">
   <div class="header-text">
       <h1>MoleculeMash</h1>
@@ -26,7 +26,7 @@ canvas {
         </ul>
     </nav>
     </div>
-</header> 
+</header>
 </head>
 <body onload="startGame()">
 <script>
@@ -43,6 +43,8 @@ var gap = randGap();
 var cHeight = 400;
 var playerSpeed = 2
 var obstacleSize = 30;
+var itemSpeed = 1;
+
 function startGame() {
     playerSize = 20;
     player = new component(playerSize, playerSize, "carbon.png", 50, cHeight/2, "image");
@@ -59,8 +61,8 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 5);
-        
-       
+
+
         },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -139,7 +141,7 @@ function updateGameArea() {
             //food[i] = new component(30, 30, "white", x, foodY);
             food.splice(i, 1);
             break;
-            
+
         }
     }
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -149,17 +151,17 @@ function updateGameArea() {
                 eaten -= 1;
                 break;
             }
-            
+
             else {
                 myGameArea.stop();
                 ctx.fillText("GAME OVER", 300, 200);
                 return;
             }
-            
+
         }
     }
-    
-    
+
+
     myGameArea.clear();
     myGameArea.frameNo += 1;
     if (myGameArea.frameNo == 1 || everyinterval(gap)) {
@@ -172,7 +174,7 @@ function updateGameArea() {
             foodY = Math.floor((Math.random()*myGameArea.canvas.height-30));
             food.push(new component(20, 20, "hydrogen.jpg", x, foodY, "image"));
         }
-       
+
         gap=randGap();
     }
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -180,12 +182,12 @@ function updateGameArea() {
             myObstacles.splice(i, 1);
         }
         else{
-            myObstacles[i].x -= 1;
+            myObstacles[i].x -= itemSpeed;
             myObstacles[i].update();
         }
     }
     for (i = 0; i< food.length; i += 1){
-        food[i].x -= 1;
+        food[i].x -= itemSpeed;
         food[i].update();
     }
     var time = (Math.round((myGameArea.frameNo*0.01)*10)/10).toFixed(1);
@@ -233,6 +235,7 @@ function changeDiamond() {
     player.image.src = "diamond.png";
     player.height = 40;
     player.width = 40;
+    itemSpeed = 2;
 }
 window.addEventListener("keydown", controller.keyListener);
 window.addEventListener("keyup", controller.keyListener);
