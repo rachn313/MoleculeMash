@@ -1,8 +1,30 @@
 body, html {
-    height: 100%;
-    background-color: #c6f4ff;
+    height: 60%;
 }
 
+body{
+	margin:0px;
+	padding-bottom: 0px;
+	background:#1c73ff;
+}
+
+.game{
+	background:#ffffff;
+	position:absolute;
+	top:60%;
+	left:50%;
+	margin-left:-320px;
+	margin-top:-180px;
+}
+
+header {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    width: 100%; 
+    height: 10%;
+}
 /* The background image */
 .background-image {
     /* Use "linear-gradient" to add a darken background effect to the image (header.png). This will make the text easier to read */
@@ -11,7 +33,7 @@ body, html {
     /* Set a specific height */
     height: 100%;
     width: 100%;
-    padding-top: 15%;
+    padding-top: 10%;
     /* Position and center the image to scale nicely on all screens */
     background-position: center;
     background-size: cover;
@@ -20,14 +42,16 @@ body, html {
 h1 {
     align-content: center;
     font-family: 'Faster One', cursive;
-    color:#ffccf4;
+    color:black;
     top: 50%;
     left: 50%;
     background-color: red;
     width: 35%;
     text-align: center;
+    padding-left: 10px;
     display: inline-block;
     font-size: 50px;
+    border-color: blue;
 }
 
 h2 {
@@ -67,26 +91,59 @@ nav li {
 }
 
 nav a {
-    color:#ffccf4;
+    color:black;
 }
 nav a:hover {
     color:yellow;
 }
 
 canvas {
-    background-color: black;
-    text-align: center;
-    margin-top: 3%;
-    margin-left: 18%;
-    width: 1000px;
-    height: 800px;
+    position: absolute; 
+    top: 32%; 
+    margin-left: 26%;
+    left: 0; 
+    right: 0;  
+    width: 50%;  
+    height: 60%;
 }
-
 
 .container {
     width: 100%
     margin: 0 auto;
 }
+
+ol {
+    padding-top: 50px;
+    margin-left: 10%;
+    font-size: 30px;
+    font-family: 'Poor Story', cursive;
+}
+
+#button {
+    width: 200px;
+    height: 50px;
+    border: 10px orange;
+    background: yellow;
+    border-radius: 5px;
+    font-size: 30px;
+    margin-left: 5%;
+    margin-top: 30%;
+}
+a {
+    display: block;
+    width: px;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: black;
+    font-family: 'Faster One', cursive;
+}
+a:hover {
+    color: blue;
+    background: orange;
+}
+
 
 
 
